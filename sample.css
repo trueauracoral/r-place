@@ -1,0 +1,74 @@
+@font-face {
+    font-family: pixel;
+    src: url("font.woff")
+}
+
+body {
+    background: #282a2e;
+    color: #c5c8c6;
+    font-family: pixel, Courier New, Verdana, Arial;
+    font-size: 1em;
+    text-align: center;
+}
+
+.grid {
+    overflow: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#selector {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    height: 0%;
+
+    opacity: 0;
+    visibility: hidden;
+    float: right;
+
+    transition: height 0.5s;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 1%;
+    background: #373b41;
+}
+
+form:valid > #selector {
+    height: 3em;
+    visibility: visible;
+    opacity: 1;
+}
+
+input[type="color"] {
+    width: 20px;
+    height: 20px;
+}
+
+input[type='radio'] {
+    opacity: 0;
+    margin: 0;
+}
+
+input[type='radio']:checked {
+    opacity: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.cell {
+    position: relative;
+    width: 10px;
+    height: 10px;
+}
+
+table {
+    border: 0.1em solid black;
+    font-size: 1px;
+    width: 640px;
+    height: 640px;
+}

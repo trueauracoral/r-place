@@ -1,0 +1,28 @@
+body {
+  background-color: black;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border: 0px;
+  padding: 0px;
+  background-color: white;
+  border-spacing: 0px; 
+}
+
+tr {
+  height: 1;
+}
+td {
+  height: 8px;
+  width: 8px;
+  background-color: white;
+}
+
+td:hover {
+    background-color: pink;
+}
+
+.white {
+  background-color: white;
+}
