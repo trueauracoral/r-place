@@ -1,32 +1,3 @@
-//function tableGen(size) {
-//    var verticals = "";
-//    var number = 0;
-//    for (let i = 0; i < size; i++) {
-//        var horizontals = "";
-//        for (let o = 0; o < size; o++) {
-//            number += 1;
-//            var name = `${i+1}-${o+1}`
-//            horizontals += `\n\t<td number="${number}" //class="pixel" id="${name}">
-//</td>`;
-//            var trformat = `\n<tr>${horizontals}\n</tr>\n`
-//        }
-//        verticals += trformat;
-//    }
-//    table = `<table>${verticals}</table>`
-//    //console.log(table);
-//    return table;
-//}
-//
-//document.getElementById("canvas").innerHTML = tableGen(64);
-//
-//var pixels = document.getElementsByClassName("pixel");
-//console.log(pixels);
-//for(let i = 0; i < pixels.length; i++) {
-//    pixels[i].addEventListener("click", function() {
-//	pixels[i].style["background-color"] = "pink";
-//    });
-//}
-
 const canvas = document.getElementById('canvas');
 
 const ctx = canvas.getContext('2d');
@@ -39,18 +10,28 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var mainColour = "black";
 
+var saveData = [];
+
+function wipeCanvas() {
+    ctx.fillStyle="white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    saveData = [];
+}
+
 function drawCell(x, y) {
     ctx.fillStyle = mainColour;
     x=Math.floor(x / 10) * 10;
     y=Math.floor(y / 10) * 10;
     console.log(x, y);
-    ctx.fillRect(x, y, 10, 10)
+    ctx.fillRect(x, y, 10, 10);
 }
 
 document.addEventListener('pointerdown', (event) => {
     var mouseCoords = getMousePosition(canvas, event);
     console.log(mouseCoords);
     drawCell(mouseCoords.x, mouseCoords.y)
+    saveData.push({"x": mouseCoords.x, "y": mouseCoords.y, "color": mainColour});
+    console.log(saveData);
 });
 
 // https://www.geeksforgeeks.org/how-to-get-the-coordinates-of-a-mouse-click-on-a-canvas-element/
@@ -84,9 +65,80 @@ function palleteGen(id) {
             console.log(button.getAttribute("id"))
             console.log("Why")
         }
-
+        
         node.appendChild(button);
     }
 }
 
 palleteGen("colours");
+
+// https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
+function downloadObjectAsJson(exportObj, exportName){
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", exportName + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+}
+function exportData() {
+    downloadObjectAsJson(saveData, "rplace")
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
+const inputElement = document.getElementsByTagName("input")[0];
+inputElement.addEventListener("change", handleFiles, false);
+function handleFiles() {
+    file = this.files[0];
+    console.log(file);
+    // https://stackoverflow.com/questions/750032/reading-file-contents-on-the-client-side-in-javascript-in-various-browsers
+    if (file) {
+        var reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = function (evt) {
+            wipeCanvas();
+            var importSaveData = JSON.parse(evt.target.result);
+            console.log(importSaveData);
+            var tempColor = mainColour;
+            importSaveData.forEach((element) => {
+                mainColour = element.color;
+                drawCell(element.x, element.y);
+            });
+
+            mainColour = tempColor;
+        }
+        reader.onerror = function (evt) {
+            console.log("error reading file");
+        }
+    }
+}
+
+//function tableGen(size) {
+//    var verticals = "";
+//    var number = 0;
+//    for (let i = 0; i < size; i++) {
+//        var horizontals = "";
+//        for (let o = 0; o < size; o++) {
+//            number += 1;
+//            var name = `${i+1}-${o+1}`
+//            horizontals += `\n\t<td number="${number}" //class="pixel" id="${name}">
+//</td>`;
+//            var trformat = `\n<tr>${horizontals}\n</tr>\n`
+//        }
+//        verticals += trformat;
+//    }
+//    table = `<table>${verticals}</table>`
+//    //console.log(table);
+//    return table;
+//}
+//
+//document.getElementById("canvas").innerHTML = tableGen(64);
+//
+//var pixels = document.getElementsByClassName("pixel");
+//console.log(pixels);
+//for(let i = 0; i < pixels.length; i++) {
+//    pixels[i].addEventListener("click", function() {
+//	pixels[i].style["background-color"] = "pink";
+//    });
+//}

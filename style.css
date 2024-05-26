@@ -30,7 +30,20 @@ td:hover {
 }
 */
 
-button {
+#data {
+  float: right;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#data button {
+  border: #383838;
+  border-style: solid;
+  border-radius: 5px;
+  background-color: #9ea7b7;
+}
+
+#colours button {
   border: none;
   background: transparent;
 }

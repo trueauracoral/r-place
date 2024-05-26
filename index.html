@@ -5,9 +5,17 @@
 
   <body>
     <div id="colours"></div>
+
+    <div id="data">
+      <button id="data" onClick="exportData()">Export</button>
+      <!--<button id="data" onClick="importData()">Import</button>-->
+      <input type="file" id="fileElem" multiple  accept="application/JSON" class="visually-hidden"/>
+    </div>
+
     <div style="text-align: center;">
       <canvas id="canvas"></canvas>
     </div>
+
     <script src="script.js"></script>
   </body>
 
