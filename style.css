@@ -1,6 +1,8 @@
 body {
-  background-color: black;
+  background-color: rgb(212, 212, 212);
 }
+
+/*
 table {
   margin-left: auto;
   margin-right: auto;
@@ -25,4 +27,19 @@ td:hover {
 
 .white {
   background-color: white;
+}
+*/
+
+button {
+  border: none;
+  background: transparent;
+}
+#colours {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  /*background-color: rgb(126, 126, 126)*/
 }
